@@ -1,0 +1,17 @@
+// swift-tools-version:5.3
+
+// Copyright Airship and Contributors
+
+import PackageDescription
+
+let package = Package(
+    name: "Airship",
+    defaultLocalization: "en",
+    platforms: [.macOS(.v10_15), .iOS(.v14), .tvOS(.v14)],
+    products: [
+        // GENERATE PRODUCTS
+    ],
+    targets: [
+        // GENERATE BINARY TARGETS
+    ]
+)
