@@ -50,7 +50,7 @@ def get_latest_release(github: Github, name: str, file_name: str):
     return (version, url)
 
 def download_url_and_extract(url: str, destination: str):
-    directory = "airship-tmp"
+    directory = "Airship"
 
     print('downloading airship.zip release asset')
     with urllib.request.urlopen(url) as dl_file:
@@ -109,12 +109,19 @@ def release_files_in_dir(github:Github, repo_name:str, dir:str, version:str):
             release.upload_asset(entry.path)
 
 def generate_package_swift(target_dir:str, template:str, release_url:str, checksums:dict):
+    basement_target_name = "AirshipBasement"
+    core_target_name = "AirshipCore"
+
     def generate_product_entry(name):
         product_name = name.split('.')[0]
+        additional_targets = ""
+        if product_name == basement_target_name: return None
+        if product_name == core_target_name: additional_targets = f', "{basement_target_name}"'
+
         return f'''
         .library(
             name: "{product_name}", 
-            targets: ["{product_name}"] 
+            targets: ["{product_name}"{additional_targets}] 
         )'''
 
     def generate_binary_entry(entry):
@@ -130,7 +137,7 @@ def generate_package_swift(target_dir:str, template:str, release_url:str, checks
     print("Generating Package.swift")
     swift_package_path = os.path.join(target_dir, "Package.swift")
 
-    products = list(map(generate_product_entry, sorted(checksums.keys())))
+    products = list(filter(None, map(generate_product_entry, sorted(checksums.keys()))))
     bin_targets = list(map(generate_binary_entry, sorted(checksums.items())))
 
     with open(template, "r") as in_file:
