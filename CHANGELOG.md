@@ -3,6 +3,12 @@
 
 [Migration Guides](https://github.com/urbanairship/ios-library/tree/main/Documentation/Migration)
 
+## Version 17.1.2 August 11, 2023
+Patch release that fixes an issue with Xcode 15 due to a WKNavigationDelegate protocol conformance issue with the AirshipNativeBridge. Applications that are facing Airship build errors with Xcode 15 should update.
+
+### Changes
+- Fixed WKNavigationDelegate protocol issue
+
 ## Version 17.1.1 August 4, 2023
 Patch release that fixes a possible delay with channel creation if the enabled flags on privacy manager changes before the channel is able to be created.
 
@@ -17,6 +23,7 @@ Minor release that adds support for global holdout groups in In-App experiences 
 - Added new feature flag module `AirshipFeatureFlags`
 - Added support for global holdout groups
 - Fixed crash with deep links from an HTML based message
+- Fixed a VoiceOver IAA issue where the content behind the IAA was being read
 
 ## Version 17.0.3 July 10, 2023
 Patch release that fixes an issue with URL allow lists defaulting to allowing all URLs if calling takeOff with a config instance.
