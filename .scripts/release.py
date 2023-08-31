@@ -37,22 +37,25 @@ def is_new_version(version:str, current_verions_path:str):
 
     return semver.compare(version, current_version) > 0
 
-def get_latest_release(github: Github, name: str, file_name: str):
+def get_latest_release(github: Github, name: str):
     repo = github.get_repo(name)
     release = repo.get_latest_release()
     version = release.tag_name
+    return (version, release)
+
+def get_release_asset_url(gh_release, asset_name):
     url = None
-    for asset in release.get_assets():
-        if asset.content_type == "application/zip" and asset.browser_download_url.endswith(file_name):
+    for asset in gh_release.get_assets():
+        if asset.content_type == "application/zip" and asset.browser_download_url.endswith(asset_name):
             url = asset.browser_download_url
             break
-
-    return (version, url)
+    
+    return url
 
 def download_url_and_extract(url: str, destination: str):
     directory = "Airship"
 
-    print('downloading airship.zip release asset')
+    print(f'downloading {destination} release asset')
     with urllib.request.urlopen(url) as dl_file:
         with open(destination, 'wb') as out_file:
             out_file.write(dl_file.read())
@@ -72,19 +75,22 @@ def copy_misc_files(source_dir:str, traget_dir:str, misc_files:list):
     for file in misc_files:
         shutil.copy(os.path.join(source_dir, file), traget_dir)
 
-def zip_all_frameworks(source_dir: str, destination_dir:str):
+def zip_all_frameworks(source_dir: str, destination_dir:str, suffix: str):
     print('repacking airship components')
     if not os.path.exists(destination_dir):
         os.makedirs(destination_dir)
 
     def zip_dir(dir:str, zip_path:str):
-        print(f'zipping {dir}')
+        print(f'zipping {dir} to {zip_path}')
         shutil.make_archive(zip_path, 'zip', base_dir=dir)
     
     with os.scandir(source_dir) as it:
         for entry in it:
             if entry.name.endswith(".xcframework") and entry.is_dir():
-                zip_dir(entry.path, os.path.join(destination_dir, entry.name))
+                components = os.path.splitext(entry.name)
+                result_filename = ''.join([components[0], suffix, components[1]])
+                
+                zip_dir(entry.path, os.path.join(destination_dir, result_filename))
 
 def compute_checksum_for_frameworks(frameworks_dir:str, project_path:str):
     print('computing frameworks checksums')
@@ -100,7 +106,10 @@ def compute_checksum_for_frameworks(frameworks_dir:str, project_path:str):
 def release_files_in_dir(github:Github, repo_name:str, dir:str, version:str):
     print(f'Creating a github release with version {version}')
     repo = github.get_repo(repo_name)
-    release = repo.create_git_release(version, version, f'Prebuilt Ariship SDK v{version}')
+    existing_version, release = get_latest_release(github, repo_name)
+
+    if existing_version != version:
+        release = repo.create_git_release(version, version, f'Prebuilt Ariship SDK v{version}')
 
     with os.scandir(dir) as it:
         for entry in it:
@@ -108,12 +117,12 @@ def release_files_in_dir(github:Github, repo_name:str, dir:str, version:str):
             print(f'uploading {entry.name}')
             release.upload_asset(entry.path)
 
-def generate_package_swift(target_dir:str, template:str, release_url:str, checksums:dict):
+def generate_package_swift(target_dir:str, template:str, release_url:str, checksums:dict, suffix: str):
     basement_target_name = "AirshipBasement"
     core_target_name = "AirshipCore"
 
     def generate_product_entry(name):
-        product_name = name.split('.')[0]
+        product_name = name.split('.')[0].removesuffix(suffix)
         additional_targets = ""
         if product_name == basement_target_name: return None
         if product_name == core_target_name: additional_targets = f', "{basement_target_name}"'
@@ -126,7 +135,7 @@ def generate_package_swift(target_dir:str, template:str, release_url:str, checks
 
     def generate_binary_entry(entry):
         name, checksum = entry
-        product_name = name.split('.')[0]
+        product_name = name.split('.')[0].removesuffix(suffix)
         return f'''
         .binaryTarget(
             name: "{product_name}",
@@ -147,7 +156,7 @@ def generate_package_swift(target_dir:str, template:str, release_url:str, checks
             in_file_text = re.sub("// GENERATE BINARY TARGETS", ",".join(bin_targets).lstrip(), in_file_text)
             out_file.write(in_file_text)
 
-def commit_changes_with_tag(parent_dir:str, version:str, version_file:str, misc_files:list):
+def commit_changes_with_tag(parent_dir:str, version:str, version_file:str, misc_files:list, carthage_files:list, branch:str):
     print(f"writing new version({version}) into file {version_file}")
     with open(os.path.join(parent_dir, version_file), 'w') as file:
         file.write(version)
@@ -159,52 +168,100 @@ def commit_changes_with_tag(parent_dir:str, version:str, version_file:str, misc_
     for file in misc_files:
         repo.index.add(file)
 
+    for file in carthage_files:
+        repo.index.add(file)
+
     print('commiting files')
     repo.index.commit(f'version {version}')
 
     print('pushing changes')
-    repo.remote().push('main')
+    repo.remote().push(branch)
+
+def update_carthage(framworks:list, release_root:str, version:str):
+    def read_file_strip_brackets(name):
+        if not os.path.exists(name): return []
+
+        result = []
+        with open(name, 'r') as file:
+            for line in file:
+                stripped = line.strip().replace(',', '')
+                if stripped == '{' or stripped == '}': continue
+                result.append(stripped)
+        return result
+    
+    def save_versions(name:str, content:list):
+        print(f'Updating carthage file {name}')
+        with open(name, 'w') as file:
+            file.write('{\n')
+            to_write = '    ' + ',\n    '.join(content)
+            file.write(to_write)
+            file.write('\n}')
+
+    result = []
+    for item in framworks:
+        filename = item.split('.')[0] + '.json'
+        versions = read_file_strip_brackets(filename)
+        versions.append(f'"{version}": "{release_root}{item}"')
+        save_versions(filename, versions)
+        result.append(filename)
+
+    return result
 
 airship_repo = "urbanairship/ios-library"
 prebuilt_repo = "urbanairship/ios-library-prebuilt"
-airship_frameworks_asset_name = "Airship.zip"
+airship_frameworks_asset_name_xcode_14 = "Airship.zip"
+airship_frameworks_asset_name_xcode_15 = "Airship-Xcode15.zip"
 package_template = ".scripts/package.swift.template"
 release_dir = "release-tmp"
 distribution_repo_url = "https://github.com/urbanairship/ios-library-prebuilt"
 current_version_file = 'VERSION'
 misc_files_to_copy = ["BUILD_INFO", "CHANGELOG.md", "LICENSE", "README.md"]
 
-def main(github_token):
-    print('configuring github')
+def main(github_token, branch):
+    print(f'configuring github on branch {branch}')
     github = Github(login_or_token=github_token)
 
+    if branch == 'main':
+        asset_name = airship_frameworks_asset_name_xcode_14
+        suffix = ''
+    elif branch == 'xcode-15':
+        asset_name = airship_frameworks_asset_name_xcode_15
+        suffix = '-Xcode15'
+    else:
+        raise Exception(f'Not allowed running release from branch {branch}')
+
     print('getting the latest airship release')
-    version, link = get_latest_release(github, airship_repo, airship_frameworks_asset_name)
+    version, gh_release = get_latest_release(github, airship_repo)
 
     if not is_new_version(version, os.path.join('.', current_version_file)): 
         print('found the same or older vesrion. ignoring')
         return
     
     print('got a new airship release. continue')
-
-    filepath = download_url_and_extract(link, airship_frameworks_asset_name)
+    link = get_release_asset_url(gh_release, asset_name)
+    filepath = download_url_and_extract(link, asset_name)
 
     if not os.path.exists(filepath):
         raise Exception(f'Failed to open {filepath}')
     
     copy_misc_files(filepath, './', misc_files_to_copy)
 
-    zip_all_frameworks(filepath, release_dir)
+    zip_all_frameworks(filepath, release_dir, suffix)
     framework_checksums = compute_checksum_for_frameworks(release_dir, './')
+
+    release_root = f'{distribution_repo_url}/releases/download/{version}/'
     
-    generate_package_swift("./", package_template, f'{distribution_repo_url}/releases/download/{version}/', framework_checksums)
+    generate_package_swift("./", package_template, release_root, framework_checksums, suffix)
+    carthage_files = update_carthage(list(framework_checksums.keys()), release_root, version)
     
-    commit_changes_with_tag('./', version, current_version_file, misc_files_to_copy)
+    commit_changes_with_tag('./', version, current_version_file, misc_files_to_copy, carthage_files, branch)
     release_files_in_dir(github, prebuilt_repo, release_dir, version)
 
 parser = argparse.ArgumentParser(description='Airship prebuil library action')
 parser.add_argument('token', type=str, help='Github access token')
+parser.add_argument('branch', type=str, help='Current branch name')
 
-main(parser.parse_args().token)
+parsed_args = parser.parse_args()
+main(parsed_args.token, parsed_args.branch)
 
 
