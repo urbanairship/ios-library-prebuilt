@@ -177,7 +177,10 @@ def commit_changes_with_tag(parent_dir:str, version:str, version_file:str, misc_
     print('pushing changes')
     repo.remote().push(branch)
 
-def update_carthage(framworks:list, release_root:str, version:str):
+def update_carthage(framworks:list, release_root:str, version:str, root_folder:str, gh_release, asset_name:str):
+    if not os.path.exists(root_folder):
+        os.makedirs(root_folder)
+
     def read_file_strip_brackets(name):
         if not os.path.exists(name): return []
 
@@ -197,13 +200,23 @@ def update_carthage(framworks:list, release_root:str, version:str):
             file.write(to_write)
             file.write('\n}')
 
+    def update_combined_framework():
+        link = get_release_asset_url(gh_release, asset_name)
+        filename = os.path.join(root_folder, 'Airship.json')
+        versions = read_file_strip_brackets(filename)
+        versions.append(f'"{version}": "{link}"')
+        save_versions(filename, versions)
+        return filename
+
     result = []
     for item in framworks:
-        filename = item.split('.')[0] + '.json'
+        filename = os.path.join(root_folder, item.split('.')[0] + '.json')
         versions = read_file_strip_brackets(filename)
         versions.append(f'"{version}": "{release_root}{item}"')
         save_versions(filename, versions)
         result.append(filename)
+
+    result.append(update_combined_framework())
 
     return result
 
@@ -216,6 +229,9 @@ release_dir = "release-tmp"
 distribution_repo_url = "https://github.com/urbanairship/ios-library-prebuilt"
 current_version_file = 'VERSION'
 misc_files_to_copy = ["BUILD_INFO", "CHANGELOG.md", "LICENSE", "README.md"]
+carthage_files_folder = 'Carthage'
+carthage_framework_xcode_14 = 'Airship.xcframeworks.zip'
+carthage_framework_xcode_15 = 'Airship-Xcode15.xcframeworks.zip'
 
 def main(github_token, branch):
     print(f'configuring github on branch {branch}')
@@ -224,9 +240,11 @@ def main(github_token, branch):
     if branch == 'main':
         asset_name = airship_frameworks_asset_name_xcode_14
         suffix = ''
+        carthage_asset = carthage_framework_xcode_14
     elif branch == 'xcode-15':
         asset_name = airship_frameworks_asset_name_xcode_15
         suffix = '-Xcode15'
+        carthage_asset = carthage_framework_xcode_15
     else:
         raise Exception(f'Not allowed running release from branch {branch}')
 
@@ -252,7 +270,7 @@ def main(github_token, branch):
     release_root = f'{distribution_repo_url}/releases/download/{version}/'
     
     generate_package_swift("./", package_template, release_root, framework_checksums, suffix)
-    carthage_files = update_carthage(list(framework_checksums.keys()), release_root, version)
+    carthage_files = update_carthage(list(framework_checksums.keys()), release_root, version, carthage_files_folder, gh_release, carthage_asset)
     
     commit_changes_with_tag('./', version, current_version_file, misc_files_to_copy, carthage_files, branch)
     release_files_in_dir(github, prebuilt_repo, release_dir, version)
