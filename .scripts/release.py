@@ -64,7 +64,7 @@ def download_url_and_extract(url: str, destination: str):
         raise Exception(f'Failed to open {destination}')
     
     print('unzipping...')
-    shutil.unpack_archive(destination, directory)
+    exec(['unzip', destination, '-d', directory])
 
     os.remove(destination)
     
@@ -82,7 +82,8 @@ def zip_all_frameworks(source_dir: str, destination_dir:str, suffix: str):
 
     def zip_dir(dir:str, zip_path:str):
         print(f'zipping {dir} to {zip_path}')
-        shutil.make_archive(zip_path, 'zip', base_dir=dir)
+        directory, framework = os.path.split(dir)
+        exec(["zip", '-r', '--symlinks', f'../{zip_path}.zip', framework], cwd=directory)
     
     with os.scandir(source_dir) as it:
         for entry in it:
