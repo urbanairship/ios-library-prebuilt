@@ -3,6 +3,22 @@
 
 [Migration Guides](https://github.com/urbanairship/ios-library/tree/main/Documentation/Migration)
 
+## Version 17.8.0, March 4, 2024
+Minor release with several bug fixes and stability improvements.
+
+### Changes
+- Added new AirshipConfig value `useUserPreferredLocale` that if set to true, Airship will use the device preferred locale instead of the app's locale for as a device property.
+- Expose the addMessageCenterDismissAction view extension for Message Center UI.
+- Fixed regression where Preference Center title in the theme was ignored.
+- Fixed an issue with the key chain migrating old Airship values to `kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`
+- Fixed modifying a coredata entity on the wrong context.
+
+## Version 17.7.3, Jan 29, 2024
+Patch release that fixes an issue with message limits not being respected in certain cases.
+
+### Changes
+- Fixed message limits not being respected in certain cases.
+
 ## Version 17.7.2 January 24, 2023
 Patch release improving SDK stability and a fix for core-data warnings with Xcode 15.
 
