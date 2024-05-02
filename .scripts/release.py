@@ -309,8 +309,9 @@ def main(github_token, branch):
             release_files_in_dir(github, prebuilt_repo, release_dir, version)
             os.remove(filepath)
             os.remove(release_dir)
-        except:
-            print(f'Faild to process release {version} {link + asset_name}')
+        except Exception as ex:
+            print(f'Faild to process release {version} {link}')
+            print(ex)
             continue
 
 parser = argparse.ArgumentParser(description='Airship prebuil library action')
