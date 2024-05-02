@@ -13,5 +13,6 @@
     "17.8.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.8.0/AirshipMessageCenter.xcframework.zip",
     "17.9.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.9.0/AirshipMessageCenter.xcframework.zip",
     "17.9.1": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.9.1/AirshipMessageCenter.xcframework.zip",
-    "17.10.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.10.0/AirshipMessageCenter.xcframework.zip"
+    "17.10.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.10.0/AirshipMessageCenter.xcframework.zip",
+    "18.0.0-beta.2": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/18.0.0-beta.2/AirshipMessageCenter.xcframework.zip"
 }

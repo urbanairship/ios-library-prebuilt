@@ -3,37 +3,28 @@
 
 [Migration Guides](https://github.com/urbanairship/ios-library/tree/main/Documentation/Migration)
 
-## Version 17.10.0, April 4, 2024
-Minor release with a new config option `resetEnabledFeatures` to reset the PrivacyManager enabled features to those specified in the Airship config on each launch and a bug fix for the delete button theming in the Message Center and back button theming in message views.
+## Version 18.0.0-beta.2, February 22, 2024
+
+Second SDK 18.0.0 beta.
 
 ### Changes
-- Added `resetEnabledFeatures` config option
-- Fixes color theme assignment for the delete button in Message Center and back button in message views.
+- Added support for push to start tokens in live activities. Start tokens will automatically be tracked for attribute types passed into the `restore` call.
+- Added migration guide for 17.x -> 18.x.
+- Updated Airship accessors to all be class vars instead of a mix of class and instance vars.
+- Replaced access to AirshipPush, AirshipContact, AirshipChannel, AirshipAnalytics with protocols.
+- Consolidated NSNotificationNames and keys to AirshipNotifications class.
+- Fixed sendable warnings in PreferenceCenter and MessageCenter module.
+- Fixed coredata warnings with Xcode 15.
 
-## Version 17.9.1, March 21, 2024
-Patch release with a bug fix for edit and refresh button theming in Message Center.
+## Version 18.0.0-beta, February 9, 2024
 
-### Changes
-- Fixes color theme assignment for the edit and refresh button in Message Center.
-
-## Version 17.9.0, March 14, 2024
-Minor release with several bug fixes and stability improvements.
-
-### Changes
-- Added message center predicate functionality
-- Fixed top-placed in-app message corner rounding
-- Added message center theming support for named colors and dark mode
-- Exposed additional preference center constructors to enable styling
-
-## Version 17.8.0, March 4, 2024
-Minor release with several bug fixes and stability improvements.
+First beta release of SDK 18.0.0. This release contains a new automation module that has been rewritten in Swift and preliminary visionOS support.
 
 ### Changes
-- Added new AirshipConfig value `useUserPreferredLocale` that if set to true, Airship will use the device preferred locale instead of the app's locale for as a device property.
-- Expose the addMessageCenterDismissAction view extension for Message Center UI.
-- Fixed regression where Preference Center title in the theme was ignored.
-- Fixed an issue with the key chain migrating old Airship values to `kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`
-- Fixed modifying a coredata entity on the wrong context.
+- New Swift Automation module. Objective-c support has been removed for this module and custom display adapters have new APIs.
+- VisionOS support
+- Xcode 15.2+ is required
+
 
 ## Version 17.7.3, Jan 29, 2024
 Patch release that fixes an issue with message limits not being respected in certain cases.
