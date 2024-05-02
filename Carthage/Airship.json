@@ -14,5 +14,6 @@
     "17.9.0": "https://github.com/urbanairship/ios-library/releases/download/17.9.0/Airship.xcframeworks.zip",
     "17.9.1": "https://github.com/urbanairship/ios-library/releases/download/17.9.1/Airship.xcframeworks.zip",
     "17.10.0": "https://github.com/urbanairship/ios-library/releases/download/17.10.0/Airship.xcframeworks.zip",
-    "18.0.0-beta.2": "https://github.com/urbanairship/ios-library/releases/download/18.0.0-beta.2/Airship.xcframeworks.zip"
+    "18.0.0-beta.2": "https://github.com/urbanairship/ios-library/releases/download/18.0.0-beta.2/Airship.xcframeworks.zip",
+    "18.0.0-rc": "https://github.com/urbanairship/ios-library/releases/download/18.0.0-rc/Airship.xcframeworks.zip"
 }
