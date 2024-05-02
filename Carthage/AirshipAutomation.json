@@ -1,5 +1,14 @@
 {
     "17.2.2": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.2.2/AirshipAutomation.xcframework.zip",
     "17.3.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.3.0/AirshipAutomation.xcframework.zip",
-    "17.3.1": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.3.1/AirshipAutomation.xcframework.zip"
+    "17.3.1": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.3.1/AirshipAutomation.xcframework.zip",
+    "17.4.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.4.0/AirshipAutomation.xcframework.zip",
+    "17.5.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.5.0/AirshipAutomation.xcframework.zip",
+    "17.5.1": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.5.1/AirshipAutomation.xcframework.zip",
+    "17.6.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.6.0/AirshipAutomation.xcframework.zip",
+    "17.6.1": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.6.1/AirshipAutomation.xcframework.zip",
+    "17.7.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.7.0/AirshipAutomation.xcframework.zip",
+    "17.7.1": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.7.1/AirshipAutomation.xcframework.zip",
+    "17.7.2": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.7.2/AirshipAutomation.xcframework.zip",
+    "17.8.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/17.8.0/AirshipAutomation.xcframework.zip"
 }

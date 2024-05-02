@@ -3,6 +3,96 @@
 
 [Migration Guides](https://github.com/urbanairship/ios-library/tree/main/Documentation/Migration)
 
+## Version 17.8.0, March 4, 2024
+Minor release with several bug fixes and stability improvements.
+
+### Changes
+- Added new AirshipConfig value `useUserPreferredLocale` that if set to true, Airship will use the device preferred locale instead of the app's locale for as a device property.
+- Expose the addMessageCenterDismissAction view extension for Message Center UI.
+- Fixed regression where Preference Center title in the theme was ignored.
+- Fixed an issue with the key chain migrating old Airship values to `kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`
+- Fixed modifying a coredata entity on the wrong context.
+
+## Version 17.7.3, Jan 29, 2024
+Patch release that fixes an issue with message limits not being respected in certain cases.
+
+### Changes
+- Fixed message limits not being respected in certain cases.
+
+## Version 17.7.2 January 24, 2023
+Patch release improving SDK stability and a fix for core-data warnings with Xcode 15.
+
+### Changes
+- Override hashing for MessageCenterMessage
+- Fixed core-data warnings
+- Fixed potential crash due to de-duping conflicts events in AirshipContact
+
+## Version 17.7.1 December 18, 2023
+Patch release that fixes an issue with app background events being attributed to the wrong session ID. This issue was introduced in 17.5.0 and impacts
+session duration times in Performance Analytics. Applications that rely on that report should update.
+
+### Changes
+- Fixed background app event session ID
+
+## Version 17.7.0 December 6, 2023
+Minor release that adds a new MessageCenter listener for current message state and a new method `Airship.contact.notifyRemoteLogin()` that will refresh the local state on the device for named user associations that occur through the server instead of the SDK.
+
+### Changes
+- Added new method `Airship.contact.notifyRemoteLogin()`
+- Added `MessageCenterController.statePublisher` to listen for the state of the Message Center
+- Fixed Preference Center title
+- Fixed direct open tracking regression introduced in 17.6.1
+- Fixed direct open tracking when opening a content-available=1 notification from a cold start
+- Fixed a possible issue with an IAX session trigger if at start a system prompt is displayed
+
+## Version 17.6.1 November 20, 2023
+Patch release that adds debug symbols to the prebuilt xcframeworks and includes fixes for SPM and Message Center.
+
+### Changes
+- Fixed SPM packages not building due to a duplicate symbol
+- Fixed Message Center list view showing a small image icon if a list icon is available and the theme does not enable list icons
+- Added debug symbols to xcframeworks to make stack traces easier to read
+
+## Version 17.6.0 November 9, 2023
+Minor release that adds support for server side feature flag segmentation, Impression billing, and improves support for animated webP images in Scenes.
+
+### Changes
+- Added server side segmentation for feature flags
+- Added support for Animated webP frame duration
+- Added support for Impression billing
+- Scene images will preload the first frame of each image in a scene to avoid the image animating in on page view
+- Fixed swipe voice commands for Scenes
+
+
+## Version 17.5.1 October 18, 2023
+Patch release that fixes an issue with Live Activity registration reporting the wrong value on app restart and fixes a regression introduced in 17.5.0 with image loading in both the Preference Center and Message Center OOTB UI.
+
+### Changes
+- Fixed Message Center list icon loading
+- Fixed Preference Center alert icon loading
+- Fixed Live Activity registration status reporting `registered` before it actually is able to register. This only occurs if the Live Activity was tracked and failed to generate a token before the app is restarted.
+
+
+## Version 17.5.0 October 12, 2023
+Minor release that adds support for querying the Airship registration status of a Live Activity, improves gif loading in Scenes & Surveys, and improves text input handling in Surveys. Applications that use Live Activities or several large GIFs in Scenes & Surveys should update.
+
+### Changes
+- Optimized GIF loading for Scenes & Surveys.
+- Improve text input on iOS 16+ for Surveys.
+- Fixed carthage build due to a missing dependency on AirshipDebug.
+- Added an additional attempt to upload a Live Activity registration upload on background if it previously failed.
+- Added new `liveActivityRegistrationStatusUpdates(name:)` and `liveActivityRegistrationStatusUpdates(activity:)` on `AirshipChannel` to make it possible to query the current registration status of a Live Activity with Airship.
+- Extended the background task used for waiting for a Live Activity token from 10 seconds to 30 seconds.
+
+## Version 17.4.0 September 28, 2023
+Minor release that improves refreshing the feeds for in-app experiences and feature flags, adds a new interaction event for feature flags, and fixes a reporting issue with direct opens and sessions counts for apps that are scene enabled.
+
+### Changes
+- Improve refresh handling of remote-data for IAX and feature flags.
+- Added new method `trackInteraction(flag:)` for Feature Flags.
+- Added new optional parameter `dismissAction` on the `MessageCenterListView` view
+- Fixed app session and direct open reporting for scene enabled applications
+
 ## Version 17.3.1 September 13, 2023
 Patch release that updates the prebuilt XCFrameworks for Xcode 15 to use the new Xcode 15 RC release. 
 
