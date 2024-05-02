@@ -8,6 +8,7 @@ import argparse
 import semver
 from github import Github
 from git.repo.base import Repo
+from functools import cmp_to_key
 
 def exec(command, cwd=None, mask=None):
     in_str = f' in {cwd}' if cwd else ''
@@ -35,13 +36,31 @@ def is_new_version(version:str, current_verions_path:str):
 
     print(f'Comparing current saved version {current_version} to the latest {version}')
 
-    return semver.compare(version, current_version) > 0
+    return (semver.compare(version, current_version) > 0, current_version)
 
 def get_latest_release(github: Github, name: str):
     repo = github.get_repo(name)
     release = repo.get_latest_release()
     version = release.tag_name
     return (version, release)
+
+def get_all_releases_since(github: Github, name:str, version:str):
+    repo = github.get_repo(name)
+    all_releases = repo.get_releases()
+    
+    result = []
+
+    for page_index in range(all_releases.totalCount):
+        has_new_releases = False
+        for release in all_releases.get_page(page_index):
+            release_version = release.tag_name
+            if not semver.Version.is_valid(release_version): continue
+            if semver.compare(release_version, version) > 0:
+                result.append((release_version, release))
+                has_new_releases = True
+        if not has_new_releases: break
+    result.sort(key= cmp_to_key(lambda v1, v2: semver.compare(v1[0], v2[0])))
+    return result
 
 def get_release_asset_url(gh_release, asset_name):
     url = None
@@ -107,9 +126,12 @@ def compute_checksum_for_frameworks(frameworks_dir:str, project_path:str):
 def release_files_in_dir(github:Github, repo_name:str, dir:str, version:str):
     print(f'Creating a github release with version {version}')
     repo = github.get_repo(repo_name)
-    existing_version, release = get_latest_release(github, repo_name)
+    try:
+        release = repo.get_release(version)
+    except:
+        release = None
 
-    if existing_version != version:
+    if release is None:
         release = repo.create_git_release(version, version, f'Prebuilt Ariship SDK v{version}')
 
     with os.scandir(dir) as it:
@@ -252,29 +274,44 @@ def main(github_token, branch):
     print('getting the latest airship release')
     version, gh_release = get_latest_release(github, airship_repo)
 
-    if not is_new_version(version, os.path.join('.', current_version_file)): 
+    has_new_version, current_version = is_new_version(version, os.path.join('.', current_version_file))
+
+    if not has_new_version: 
         print('found the same or older vesrion. ignoring')
         return
     
     print('got a new airship release. continue')
-    link = get_release_asset_url(gh_release, asset_name)
-    filepath = download_url_and_extract(link, asset_name)
+    print(f'pulling all missing releases since {current_version}')
+    for version, gh_release in get_all_releases_since(github, airship_repo, current_version):
+        print(f'processing version {version}')
 
-    if not os.path.exists(filepath):
-        raise Exception(f'Failed to open {filepath}')
-    
-    copy_misc_files(filepath, './', misc_files_to_copy)
+        link = get_release_asset_url(gh_release, asset_name)
+        if link is None:
+            print(f'Failed to locate asset {asset_name} for release {version}')
+            continue
+        try:
+            filepath = download_url_and_extract(link, asset_name)    
 
-    zip_all_frameworks(filepath, release_dir, suffix)
-    framework_checksums = compute_checksum_for_frameworks(release_dir, './')
+            if not os.path.exists(filepath):
+                raise Exception(f'Failed to open {filepath}')
+            
+            copy_misc_files(filepath, './', misc_files_to_copy)
 
-    release_root = f'{distribution_repo_url}/releases/download/{version}/'
-    
-    generate_package_swift("./", package_template, release_root, framework_checksums, suffix)
-    carthage_files = update_carthage(list(framework_checksums.keys()), release_root, version, carthage_files_folder, gh_release, carthage_asset)
-    
-    commit_changes_with_tag('./', version, current_version_file, misc_files_to_copy, carthage_files, branch)
-    release_files_in_dir(github, prebuilt_repo, release_dir, version)
+            zip_all_frameworks(filepath, release_dir, suffix)
+            framework_checksums = compute_checksum_for_frameworks(release_dir, './')
+
+            release_root = f'{distribution_repo_url}/releases/download/{version}/'
+            
+            generate_package_swift("./", package_template, release_root, framework_checksums, suffix)
+            carthage_files = update_carthage(list(framework_checksums.keys()), release_root, version, carthage_files_folder, gh_release, carthage_asset)
+            
+            commit_changes_with_tag('./', version, current_version_file, misc_files_to_copy, carthage_files, branch)
+            release_files_in_dir(github, prebuilt_repo, release_dir, version)
+            os.remove(filepath)
+            os.remove(release_dir)
+        except:
+            print(f'Faild to process release {version} {link + asset_name}')
+            continue
 
 parser = argparse.ArgumentParser(description='Airship prebuil library action')
 parser.add_argument('token', type=str, help='Github access token')
