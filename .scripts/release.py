@@ -307,8 +307,9 @@ def main(github_token, branch):
             
             commit_changes_with_tag('./', version, current_version_file, misc_files_to_copy, carthage_files, branch)
             release_files_in_dir(github, prebuilt_repo, release_dir, version)
-            os.remove(filepath)
-            os.remove(release_dir)
+            
+            shutil.rmtree(filepath)
+            shutil.rmtree(release_dir)
         except Exception as ex:
             print(f'Faild to process release {version} {link}')
             print(ex)
