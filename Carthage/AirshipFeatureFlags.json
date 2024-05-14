@@ -21,5 +21,6 @@
     "18.1.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/18.1.0/AirshipFeatureFlags.xcframework.zip",
     "18.1.1": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/18.1.1/AirshipFeatureFlags.xcframework.zip",
     "18.1.2": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/18.1.2/AirshipFeatureFlags.xcframework.zip",
-    "18.2.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/18.2.0/AirshipFeatureFlags.xcframework.zip"
+    "18.2.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/18.2.0/AirshipFeatureFlags.xcframework.zip",
+    "18.2.1": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/18.2.1/AirshipFeatureFlags.xcframework.zip"
 }
