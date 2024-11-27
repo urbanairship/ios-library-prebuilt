@@ -1,11 +1,19 @@
 
 # iOS Changelog
 
-## Version 18.12.0 November 5, 2024
-Patch release that resolves an issue with Firebase integrations in React Native and Flutter.
+## Version 18.12.2 November 26, 2024
+Patch release that resolves a minor memory-related bug and adds more useful logging around Feature Flag evaluation.
+
+### Changes
+- Fixed minor memory-related bug that could result in a rare crash.
+- Improved logging around Feature Flag evaluation.
+
+## Version 18.12.1 November 6, 2024
+Patch release that resolves an issue with Firebase integrations in React Native and Flutter and an issue with opt-in checks when `requestAuthorizationToUseNotifications` is set to false.
 
 ### Changes
 - Fixed issues caused by swizzling conflicts with some Firebase framework integrations.
+- Fixed opt-in check permissions querying when `requestAuthorizationToUseNotifications` is set to false.
 
 ## Version 18.12.0 November 1, 2024
 Minor release with several enhancements to Scenes.
