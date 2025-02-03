@@ -1,6 +1,21 @@
 
 # iOS Changelog
 
+## Version 19.0.2 January 31, 2025
+Patch release to fix a crash caused by banner size changes during dismissal.
+
+### Changes
+- Fixed crash caused by banner size changes during dismissal.
+
+## Version 19.0.1 January 29, 2025
+Patch release that fixes a crash when the device toggles airplane mode. Apps using 19.0.0 should update.
+
+### Changes
+- Fixed crash in `WorkConditionsMonitor` when the device toggles airplane mode.
+- Added `@MainActor` to `RegistrationDelegate` protocol methods.
+- Updated default dismiss button color from white to black for landing pages to match Android.
+- Removed top padding on modal and full screen IAAs when using header_media_body and header_body_media without anything above the media.
+
 ## Version 19.0.0 January 16, 2025
 Major SDK release with several breaking changes. see the [Migration Guide](https://github.com/urbanairship/ios-library/tree/main/Documentation/Migration/migration-guide-18-19.md) for more info.
 
