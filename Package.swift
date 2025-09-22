@@ -41,43 +41,43 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "AirshipAutomation",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.9.2/AirshipAutomation.xcframework.zip",
-            checksum: "80f4eaba621edc485fc81fe214fe00801a139031459cec92d1f53930b09a0a7f"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.10.0/AirshipAutomation.xcframework.zip",
+            checksum: "92085b56b0690aa0814972b48de37481df84afd0aacf6ebac0f7af06ada6ce1e"
         ),
         .binaryTarget(
             name: "AirshipBasement",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.9.2/AirshipBasement.xcframework.zip",
-            checksum: "4f02de6182b27e52fca0be5d9e40787bf49e6042e2d97ba7bcf642b5309000a6"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.10.0/AirshipBasement.xcframework.zip",
+            checksum: "2c4e0fc375b235f902d091282fb9efbd02336e9efda15255cd9a28c085658b1d"
         ),
         .binaryTarget(
             name: "AirshipCore",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.9.2/AirshipCore.xcframework.zip",
-            checksum: "fdbb2792ddd67384c3439a9fcd6a44cdcae69e8ddb656c3e4b90d4b5055809be"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.10.0/AirshipCore.xcframework.zip",
+            checksum: "747e9f8f11288f0cb844770d0da2aa35da0bf6fb196446298f7a1cc2e01728eb"
         ),
         .binaryTarget(
             name: "AirshipFeatureFlags",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.9.2/AirshipFeatureFlags.xcframework.zip",
-            checksum: "04e2a555e2fcba6135b4af0ec9b8524ce1cf24e04a29615b8e549f7178f31f2d"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.10.0/AirshipFeatureFlags.xcframework.zip",
+            checksum: "abd1456dcf9b9ff81d421177282da788d08c4a9f0d0a762918e6e1e44c279bfc"
         ),
         .binaryTarget(
             name: "AirshipMessageCenter",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.9.2/AirshipMessageCenter.xcframework.zip",
-            checksum: "ce9114b6568803c2baf5cecdec1d22194d4ed8d9f4229cfb05b2f41f5b83fea1"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.10.0/AirshipMessageCenter.xcframework.zip",
+            checksum: "6eb16644c30d833048568427a891f21f8e595a0b5c4c022e2edfb3b7ad73a6db"
         ),
         .binaryTarget(
             name: "AirshipNotificationServiceExtension",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.9.2/AirshipNotificationServiceExtension.xcframework.zip",
-            checksum: "412843c0d7d7c24d234879a46e742e6cb4afac41163abcdafa6e59d8c65b980b"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.10.0/AirshipNotificationServiceExtension.xcframework.zip",
+            checksum: "1159e4e1759ae59f887aa7b425390ffa0404a3317b1e5f2ace479cec497521a2"
         ),
         .binaryTarget(
             name: "AirshipObjectiveC",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.9.2/AirshipObjectiveC.xcframework.zip",
-            checksum: "770739a27635d0f6fe40ae1166ab0c2924174fe4c1f97bf2496b3076959e561c"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.10.0/AirshipObjectiveC.xcframework.zip",
+            checksum: "042952dc2d4a851ca045f0debbfae90c3dcc30b994a80a0de600d744adc43440"
         ),
         .binaryTarget(
             name: "AirshipPreferenceCenter",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.9.2/AirshipPreferenceCenter.xcframework.zip",
-            checksum: "0e1cdc9025942155eda691dd29e9f3acd2aa82b6a4113ac576e0f82e3d83978a"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.10.0/AirshipPreferenceCenter.xcframework.zip",
+            checksum: "f023f64c33c2278a246fa4b7260b1383735da90fddb1881217f55c9cd5869ff5"
         )
     ]
 )
