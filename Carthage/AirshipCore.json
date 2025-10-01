@@ -69,5 +69,6 @@
     "19.8.3": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.8.3/AirshipCore.xcframework.zip",
     "19.9.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.9.0/AirshipCore.xcframework.zip",
     "19.9.2": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.9.2/AirshipCore.xcframework.zip",
-    "19.10.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.10.0/AirshipCore.xcframework.zip"
+    "19.10.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.10.0/AirshipCore.xcframework.zip",
+    "19.11.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/19.11.0/AirshipCore.xcframework.zip"
 }
