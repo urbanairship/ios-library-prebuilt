@@ -5,8 +5,18 @@
 [All Releases](https://github.com/urbanairship/ios-library/releases)
 
 
+## Version 20.0.1 - November 14, 2025
+Patch release that fixes several minor bugs and adds accessibility improvements.
+
+### Changes
+- Fixed looping behavior in video views within Scenes.
+- Fixed Message Center icon display when icons are enabled.
+- Fixed pager indicator accessibility to prevent duplicate VoiceOver announcements.
+- Added dismiss action to banner in-app messages for improved VoiceOver accessibility.
+- Fixed YouTube video embedding to comply with YouTube API Client identification requirements.
+
 ## Version 20.0.0 - October 9, 2025
-Major SDK release with several breaking changes. See the [Migration Guide](Documentation/Migration/migration-guide-19-20.md) for more info.
+Major SDK release with several breaking changes. See the [Migration Guide](https://github.com/urbanairship/ios-library/blob/main/Documentation/Migration/migration-guide-19-20.md) for more info.
 
 ### Changes
 - Xcode 26+ is now required.
@@ -20,3 +30,4 @@ Major SDK release with several breaking changes. See the [Migration Guide](Docum
 - CustomViews within a Scene can now programmatically control their parent Scene, enabling more dynamic and interactive custom content.
 - Accessibility updates for Scenes.
 - New AirshipDebug package that exposes insights and debugging capabilities into the Airship SDK for development builds, providing enhanced visibility into SDK behavior and performance.
+- Removed automatic collection of `connection_type` and `carrier` device properties
