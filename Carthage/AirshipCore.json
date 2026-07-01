@@ -90,5 +90,6 @@
     "20.7.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.7.0/AirshipCore.xcframework.zip",
     "20.7.1": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.7.1/AirshipCore.xcframework.zip",
     "20.7.2": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.7.2/AirshipCore.xcframework.zip",
-    "20.8.1": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.8.1/AirshipCore.xcframework.zip"
+    "20.8.1": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.8.1/AirshipCore.xcframework.zip",
+    "21.0.0-beta.1": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.1/AirshipCore.xcframework.zip"
 }

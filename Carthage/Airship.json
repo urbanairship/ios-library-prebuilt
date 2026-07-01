@@ -90,5 +90,6 @@
     "20.7.0": "https://github.com/urbanairship/ios-library/releases/download/20.7.0/Airship.xcframeworks.zip",
     "20.7.1": "https://github.com/urbanairship/ios-library/releases/download/20.7.1/Airship.xcframeworks.zip",
     "20.7.2": "https://github.com/urbanairship/ios-library/releases/download/20.7.2/Airship.xcframeworks.zip",
-    "20.8.1": "https://github.com/urbanairship/ios-library/releases/download/20.8.1/Airship.xcframeworks.zip"
+    "20.8.1": "https://github.com/urbanairship/ios-library/releases/download/20.8.1/Airship.xcframeworks.zip",
+    "21.0.0-beta.1": "https://github.com/urbanairship/ios-library/releases/download/21.0.0-beta.1/Airship.xcframeworks.zip"
 }

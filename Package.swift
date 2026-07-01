@@ -40,53 +40,71 @@ let package = Package(
         .library(
             name: "AirshipPreferenceCenter", 
             targets: ["AirshipPreferenceCenter"] 
+        ),
+        .library(
+            name: "AirshipSceneRenderer", 
+            targets: ["AirshipSceneRenderer"] 
+        ),
+        .library(
+            name: "AirshipScenes", 
+            targets: ["AirshipScenes"] 
         )
     ],
     targets: [
         .binaryTarget(
             name: "AirshipAutomation",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.8.1/AirshipAutomation.xcframework.zip",
-            checksum: "ba633803481623cdbf8d529b2af2dc4167edda8db7353f3021b2e97ddc73cb17"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.1/AirshipAutomation.xcframework.zip",
+            checksum: "3ba67888dcb7beca9a07e782cf6c4b513842e40620520e4b669e5bf222439656"
         ),
         .binaryTarget(
             name: "AirshipBasement",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.8.1/AirshipBasement.xcframework.zip",
-            checksum: "0710ed27e4f392ff8a1b2c0bbad8fd87b5696cdc22b37c2aafd9b804740fa004"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.1/AirshipBasement.xcframework.zip",
+            checksum: "860d4c4238618d498fd59bc27309f0df64999bfd01424b1569c92125d54f9a05"
         ),
         .binaryTarget(
             name: "AirshipCore",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.8.1/AirshipCore.xcframework.zip",
-            checksum: "dfb179a7447fa93a5eb75a726a465ad5591b25d27f45872bd57a0a77f5624d33"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.1/AirshipCore.xcframework.zip",
+            checksum: "3d8f141b1097ab60aaed214b775f2225f17e61dede5fc8b10f10efec0ff4199b"
         ),
         .binaryTarget(
             name: "AirshipDebug",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.8.1/AirshipDebug.xcframework.zip",
-            checksum: "dde633eac56b804ce2adf2c240609b50bc2039d28f94c2c3ece60b515b548c7c"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.1/AirshipDebug.xcframework.zip",
+            checksum: "d3b054ec19d542ed3a0f6712c3b0fde3299af2e4d94beb14772c1e211f762923"
         ),
         .binaryTarget(
             name: "AirshipFeatureFlags",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.8.1/AirshipFeatureFlags.xcframework.zip",
-            checksum: "df5c1c89adb0b58efec52272cc364d640f7d5fbb5276164b1bf5eb280b569420"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.1/AirshipFeatureFlags.xcframework.zip",
+            checksum: "524919a8ec1ddca7bb8857191d3e96226f7d37af5e942e787cbfee31005aea1c"
         ),
         .binaryTarget(
             name: "AirshipMessageCenter",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.8.1/AirshipMessageCenter.xcframework.zip",
-            checksum: "7309476f0646972894a38794c665efd9c7ede60088fe4da88e3626fcc5047539"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.1/AirshipMessageCenter.xcframework.zip",
+            checksum: "5d68c31e136fe914c06912f41d85d975f76a048ace72bec6834c10f8a424cdf4"
         ),
         .binaryTarget(
             name: "AirshipNotificationServiceExtension",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.8.1/AirshipNotificationServiceExtension.xcframework.zip",
-            checksum: "e628faf6a97ee3b94cce7c1fef266e99cea780238c6dddba633ea324ed80aa40"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.1/AirshipNotificationServiceExtension.xcframework.zip",
+            checksum: "5aea71bb3d3d1ea8fdcbe5d6279084b001c6bd1699282fb8066bbc49da3591fb"
         ),
         .binaryTarget(
             name: "AirshipObjectiveC",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.8.1/AirshipObjectiveC.xcframework.zip",
-            checksum: "f118f18c563cfc6c45881322dad253ef199d06775e7101e544e92d50ab2a7104"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.1/AirshipObjectiveC.xcframework.zip",
+            checksum: "b1c927b289a210bf0754d7abb7b9f399e7f7d1754a45b06a7a3297cdb14e92d5"
         ),
         .binaryTarget(
             name: "AirshipPreferenceCenter",
-            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/20.8.1/AirshipPreferenceCenter.xcframework.zip",
-            checksum: "7e1359208ba556b8c050eadbffd0839bdbebba31e8ca1232c6a52187f006d6d1"
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.1/AirshipPreferenceCenter.xcframework.zip",
+            checksum: "89c9e2455d596c894869b518343606796dcf291d9d95a11307805960708923a3"
+        ),
+        .binaryTarget(
+            name: "AirshipSceneRenderer",
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.1/AirshipSceneRenderer.xcframework.zip",
+            checksum: "211d3f3771d3c3eb7a67a532df5133544f592753b928801735994cf8b871bd26"
+        ),
+        .binaryTarget(
+            name: "AirshipScenes",
+            url: "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.1/AirshipScenes.xcframework.zip",
+            checksum: "bc5f1779695c1eebdd45d2930318736628639eac63d90c7ce422966d4cf55ca8"
         )
     ]
 )
