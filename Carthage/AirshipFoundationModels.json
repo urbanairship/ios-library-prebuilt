@@ -1,5 +1,6 @@
 {
     "21.0.0-beta.2": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.2/AirshipFoundationModels.xcframework.zip",
     "21.0.0-beta.3": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0-beta.3/AirshipFoundationModels.xcframework.zip",
-    "21.0.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0/AirshipFoundationModels.xcframework.zip"
+    "21.0.0": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.0/AirshipFoundationModels.xcframework.zip",
+    "21.0.1": "https://github.com/urbanairship/ios-library-prebuilt/releases/download/21.0.1/AirshipFoundationModels.xcframework.zip"
 }
