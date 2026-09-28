@@ -140,20 +140,55 @@ def release_files_in_dir(github:Github, repo_name:str, dir:str, version:str):
             print(f'uploading {entry.name}')
             release.upload_asset(entry.path)
 
-def generate_package_swift(target_dir:str, template:str, release_url:str, checksums:dict, suffix: str):
+def find_framework_dependencies(frameworks_dir:str):
+    """Maps each framework to the other frameworks it links, directly or transitively.
+
+    The frameworks are dynamic and binary targets can't declare dependencies, so
+    every product must list each binary it loads or apps fail at launch with
+    `Library not loaded`.
+
+    :param frameworks_dir: directory containing the extracted `.xcframework` bundles
+    :returns: framework name to the set of framework names it depends on
+    """
+    load_pattern = re.compile(r'@rpath/(\w+)\.framework/')
+
+    frameworks = {}
+    with os.scandir(frameworks_dir) as it:
+        for entry in it:
+            if entry.name.endswith('.xcframework') and entry.is_dir():
+                frameworks[entry.name.removesuffix('.xcframework')] = entry.path
+
+    direct = {}
+    for name, path in frameworks.items():
+        linked = set()
+        for root, _, files in os.walk(path):
+            is_binary_dir = root.endswith((f'{name}.framework', f'{name}.framework/Versions/A'))
+            if is_binary_dir and name in files:
+                linked.update(load_pattern.findall(exec(['otool', '-L', os.path.join(root, name)])))
+        direct[name] = {module for module in linked if module in frameworks and module != name}
+
+    def closure(name, seen):
+        for dependency in direct[name]:
+            if dependency not in seen:
+                seen.add(dependency)
+                closure(dependency, seen)
+        return seen
+
+    return {name: closure(name, set()) for name in frameworks}
+
+def generate_package_swift(target_dir:str, template:str, release_url:str, checksums:dict, suffix: str, dependencies:dict):
     basement_target_name = "AirshipBasement"
-    core_target_name = "AirshipCore"
 
     def generate_product_entry(name):
         product_name = name.split('.')[0].removesuffix(suffix)
-        additional_targets = ""
         if product_name == basement_target_name: return None
-        if product_name == core_target_name: additional_targets = f', "{basement_target_name}"'
+        targets = [product_name] + sorted(dependencies.get(product_name, set()))
+        targets_list = ', '.join(f'"{target}"' for target in targets)
 
         return f'''
         .library(
             name: "{product_name}", 
-            targets: ["{product_name}"{additional_targets}] 
+            targets: [{targets_list}] 
         )'''
 
     def generate_binary_entry(entry):
@@ -302,7 +337,8 @@ def main(github_token, branch):
 
             release_root = f'{distribution_repo_url}/releases/download/{version}/'
             
-            generate_package_swift("./", package_template, release_root, framework_checksums, suffix)
+            dependencies = find_framework_dependencies(filepath)
+            generate_package_swift("./", package_template, release_root, framework_checksums, suffix, dependencies)
             carthage_files = update_carthage(list(framework_checksums.keys()), release_root, version, carthage_files_folder, gh_release, carthage_asset)
             
             commit_changes_with_tag('./', version, current_version_file, misc_files_to_copy, carthage_files, branch)
